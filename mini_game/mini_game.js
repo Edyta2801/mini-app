@@ -1,17 +1,20 @@
-function Game(selector) {
+function Game(selector, boardDimension) {
     this.container = selector ?
         document.querySelector(selector)
         :
         document.querySelector('body')
+    this.boardDimension=3
+    this.cellDimension=(100/this.boardDimension)+'%'
     this.gameBoardArray = [
-        [0, 0],
-        [0, 1]
+        [1, 0, 0],
+        [0, 0, 0 ],
+        [0, 0, 0 ]
     ]
     this.gameBoard=null
     this.init()
 }
 Game.prototype.init=function(){
-    this.gameBoard()
+    this.makeGameBoard()
     this.render()
 }
 
@@ -19,8 +22,11 @@ Game.prototype.makeGameBoard=function(cell){
 const boardElement=document.createElement('div')
 boardElement.style.width='500px'
 boardElement.style.height='500px'
+boardElement.style.display='flex'
+boardElement.style.flex='wrap'
 
-this.container.appendChild(this.boardElement)
+this.gameBoard=boardElement
+this.container.appendChild(boardElement)
 }
 Game.prototype.render = function () {
     this.gameBoardArray.forEach(row => {
@@ -29,16 +35,16 @@ Game.prototype.render = function () {
         })
     })
 }
-Game.prototype.renderSingleCell = function (e = cell) {
+Game.prototype.renderSingleCell = function (cell) {
     const cellElement = document.createElement('div')
-    cellElement.style.width = '50%'
-    cellElement.style.height = '50%'
+    cellElement.style.width = this.cellDimension
+    cellElement.style.height = this.cellDimension
 
-    if (cel == 0) {
+    if (cell == 0) {
         cellElement.style.backgroundColor = 'grey'
     } else {
-        cellElement.style.backgroundColor='black'
+        cellElement.style.backgroundColor= 'black'
         }
         this.gameBoard.appendChild(cellElement)
     }
-            
+       
