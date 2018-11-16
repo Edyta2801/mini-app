@@ -5,11 +5,16 @@ function Game(selector, boardDimension) {
         document.querySelector('body')
     this.boardDimension=3
     this.cellDimension=(100/this.boardDimension)+'%'
+    this.playerPosition={
+        x: 1,
+        y: 0
+    }
     this.gameBoardArray = [
-        [1, 0, 0],
-        [0, 0, 0 ],
-        [0, 0, 0 ]
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
     ]
+    this.gameBoardArray[this.playerPosition.y][this.PlayerPosition.x]=1
     this.gameBoard=null
     this.init()
 }
@@ -45,6 +50,5 @@ Game.prototype.renderSingleCell = function (cell) {
     } else {
         cellElement.style.backgroundColor= 'black'
         }
-        this.gameBoard.appendChild(cellElement)
+    this.gameBoard.appendChild(cellElement)
     }
-       
