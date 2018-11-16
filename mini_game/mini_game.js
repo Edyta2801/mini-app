@@ -10,11 +10,12 @@ function Game(selector, boardDimension) {
         y: 0
     }
     this.gameBoardArray = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 0, 1]
     ]
 
+    this.gameBoardArray[this.playerPosition.y][this.playerPosition.x]='X'
 
     this.gameBoard = null
     this.init()
@@ -36,25 +37,25 @@ Game.prototype.makeGameBoard = function (cell) {
     this.container.appendChild(boardElement)
 }
 
-Game.prototype.checkI.checkIfMooveIsAvailableIsAvailable = function (y, x) {
+Game.prototype.checkIfMoveIsAvailableIsAvailable = function (y, x) {
     const newPlayerPosition = {
         x: this.playerPosition.x + x,
         y: this.playerPosition.y + y
     }
     if (
-        this.Game[newPlayerPosition.y] !== undefined &&
-        this.Game[newPlayerPosition.y][newPlayerPosition.x] !== undefined
+        this.Game[newPlayerPosition.y]&&
+        this.Game[newPlayerPosition.y][newPlayerPosition.x]
     ) {
-        this.checkIfMooveIsAvailable(newPlayerPosition)
+        this.checkIfMoveIsAvailable(newPlayerPosition)
     }
 }
-}
 
 
 
-Game.prototype.checkIfMooveIsAvailable = function (y, x) {
-    this.gameBoardArray[this.playerPosition.y][this.playerPosition.x] = 0
-    this.gameBoardArray[this.newPlayerPosition.y][this.newPlayerPosition.x + x] = 1
+
+Game.prototype.checkIfMoveIsAvailable = function (y, x) {
+    this.gameBoardArray[this.playerPosition.y][this.playerPosition.x] = 1
+    this.gameBoardArray[this.newPlayerPosition.y][this.newPlayerPosition.x + x] = 'X'
     this.playerPosition = newPlayerPosition
 
     this.render()
@@ -100,10 +101,17 @@ Game.prototype.renderSingleCell = function (cell) {
     cellElement.style.width = this.cellDimension
     cellElement.style.height = this.cellDimension
 
-    if (cell == 0) {
-        cellElement.style.backgroundColor = 'grey'
-    } else {
-        cellElement.style.backgroundColor = 'black'
+    switch (cell) {
+        case 0:
+            cellElement.style.backgroundColor = 'red'
+            break
+        case 1:
+            cellElement.style.backgroundColor = 'grey'
+            break
+        case 'X':
+            cellElement.style.backgroundColor = 'black'
+            break
     }
     this.gameBoard.appendChild(cellElement)
 }
+
