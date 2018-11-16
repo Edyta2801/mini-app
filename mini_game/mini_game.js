@@ -9,13 +9,9 @@ function Game(selector, boardDimension) {
         x: 1,
         y: 0
     }
-    this.gameBoardArray = [
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 0, 1]
-    ]
+    this.gameBoardArray = this.makeEmptyBoardArray
 
-    this.gameBoardArray[this.playerPosition.y][this.playerPosition.x]='X'
+    this.gameBoardArray[this.playerPosition.y][this.playerPosition.x]=='X'
 
     this.gameBoard = null
     this.init()
@@ -25,6 +21,13 @@ Game.prototype.init = function () {
     this.render()
     this.startListeningArrowKeys()
 }
+
+Game.prototype.makeEmptyBoardArray = function () {
+    return Array(this.boardDimension)
+    .fill(1).map(row => Array(this.boardDimension).fill(1)
+    )
+}
+
 
 Game.prototype.makeGameBoard = function (cell) {
     const boardElement = document.createElement('div')
@@ -43,7 +46,7 @@ Game.prototype.checkIfMoveIsAvailableIsAvailable = function (y, x) {
         y: this.playerPosition.y + y
     }
     if (
-        this.Game[newPlayerPosition.y]&&
+        this.Game[newPlayerPosition.y] &&
         this.Game[newPlayerPosition.y][newPlayerPosition.x]
     ) {
         this.checkIfMoveIsAvailable(newPlayerPosition)
