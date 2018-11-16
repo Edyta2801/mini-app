@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <title>Przetwarzanie struktur danych &mdash; prosta mini-aplikacja</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="Author" content="Łukasz Krawczyk (Web Developer / Graphic &amp; Web Designer)" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+    <link rel="manifest" href=".favicon//site.webmanifest">
+    <link rel="mask-icon" href=".favicon//safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+</head> 
+
+<body>
+
+    <main>
+
+        <h1>Metoda <code>.forEach()</code></h1>
+
+        <section>
+
+            <h4>Utwórz tablicę z liczbami</h4>
+
+            <input class="input-array" type="number" />
+
+            <button class="button-array button-array--add" type="button">Dodaj</button>
+
+            <button class="button-array button-array--remove" type="button">Usuń</button>
+
+            <p class="info-array">Twoja tablica: <span class="info-array info-array__output"></span></p>
+
+        </section>
+
+        <section>
+
+            <h4>Podaj współczynnik mnożenia</h4>
+
+            <input class="input-coefficient" type="number" />
+
+            <button class="button-coefficient button-coefficient--calculate" type="button">Oblicz</button>
+
+            <button class="button-coefficient button-coefficient--reset" type="button">Czyść</button>
+
+            <p class="info-coefficient">Wynik operacji: <span class="info-coefficient info-coefficient__output"></span></p>
+
+        </section>
+
+    </main>
+
+    <script>
+
+        const main = document.querySelector('main');
+
+        main.style.display = 'none';
+        const render = () => {
+
+            let inputNumber, coefficient;
+
+            let myArray = [];
+            let error = '';
+
+            document.querySelector('.button-array--add').addEventListener('click', () => {
+                inputNumber = document.querySelector('.input-array').value;
+                if (inputNumber !== '') {
+                    document.querySelector('.input-array').value = '';
+                    myArray.push(inputNumber);
+                    document.querySelector('.info-array__output').innerHTML = `<code>${myArray}</code>`;
+                } else {
+
+                    error = 'Musisz podać jakiś element, nie ma nic do dodania!';
+
+                    alert(error);
+                }
+            });
+            document.querySelector('.button-array--remove').addEventListener('click', () => {
+                if (myArray.length === 0) {
+                    alert('Tablica jest pusta, nie ma nic do usunięcia!');
+
+                } else {
+
+                    myArray.pop();
+                    document.querySelector('.info-array__output').innerHTML = `<code>${myArray}</code>`;
+                }
+
+            });
+            document.querySelector('.button-coefficient--calculate').addEventListener('click', function () {
+
+                coefficient = document.querySelector('.input-coefficient').value;
+                if (myArray.length > 0 && coefficient !== '') {
+                    document.querySelector('.input-coefficient').value = '';
+
+                    myArray.forEach((element, index, array) => {
+                        array[index] = element * coefficient;
+
+                    });
+                    document.querySelector('.info-coefficient__output').innerHTML = `<code>${myArray}</code>`;
+
+                    document.querySelector('.input-array').setAttribute('disabled', 'disabled');
+                    document.querySelector('.button-array--add').setAttribute('disabled', 'disabled');
+                    document.querySelector('.button-array--remove').setAttribute('disabled', 'disabled');
+                    document.querySelector('.input-coefficient').setAttribute('disabled', 'disabled');
+                    this.setAttribute('disabled', 'disabled');
+
+                } else if (myArray.length === 0) {
+
+                    error = 'Tablica jest pusta, muszisz podać jakiś element!';
+
+                    alert(error);
+
+                } else if (coefficient === '') {
+
+                    error = 'Musisz podać współczynnik mnożenia!';
+
+                    alert(error);
+
+                }
+            });
+            document.querySelector('.button-coefficient--reset').addEventListener('click', () => {
+
+                location.reload(true);
+            });
+            main.style.display = 'block';
+        };
+
+        render();
+    </script>
+
+</body>
+
+</html>
