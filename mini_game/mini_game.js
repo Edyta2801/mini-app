@@ -35,15 +35,29 @@ Game.prototype.makeGameBoard = function (cell) {
     this.gameBoard = boardElement
     this.container.appendChild(boardElement)
 }
-Game.prototype.move = function (y, x) {
+
+Game.prototype.checkI.checkIfMooveIsAvailableIsAvailable = function (y, x) {
     const newPlayerPosition = {
         x: this.playerPosition.x + x,
-        y: this.playerPosition.y + y,
-
+        y: this.playerPosition.y + y
     }
+    if (
+        this.Game[newPlayerPosition.y] !== undefined &&
+        this.Game[newPlayerPosition.y][newPlayerPosition.x] !== undefined
+    ) {
+        this.checkIfMooveIsAvailable(newPlayerPosition)
+    }
+}
+}
+
+
+
+Game.prototype.checkIfMooveIsAvailable = function (y, x) {
     this.gameBoardArray[this.playerPosition.y][this.playerPosition.x] = 0
     this.gameBoardArray[this.newPlayerPosition.y][this.newPlayerPosition.x + x] = 1
     this.playerPosition = newPlayerPosition
+
+    this.render()
 }
 
 
@@ -55,16 +69,16 @@ Game.prototype.startListeningArrowKeys = function () {
             event.preventDefault()
             switch (event.keys) {
                 case 'ArrowUp':
-                    this.move(-1, 0)
+                    this.checkIfMIsAvailable(-1, 0)
                     break
                 case 'ArrowDown':
-                    this.move(1, 0)
+                    this.checkIfMIsAvailable(1, 0)
                     break
                 case 'ArrowLeft':
-                    this.move(0, -1)
+                    this.checkIfMIsAvailable(0, -1)
                     break
                 case 'ArrowRight':
-                    this.move(0, 1)
+                    this.checkIfMIsAvailable(0, 1)
                     break
             }
         }
@@ -73,6 +87,8 @@ Game.prototype.startListeningArrowKeys = function () {
 
 
 Game.prototype.render = function () {
+    this.gameBoard.innerHTML = ''
+
     this.gameBoardArray.forEach(row => {
         row.forEach(cell => {
             this.renderSingleCell(cell)
